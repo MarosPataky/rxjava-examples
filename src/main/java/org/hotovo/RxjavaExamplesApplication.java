@@ -33,47 +33,47 @@ public class RxjavaExamplesApplication implements CommandLineRunner {
 
     @Override
     public void run(String... strings) throws Exception {
-        StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
-        CountDownLatch countDownLatch = new CountDownLatch(10);
-        BookServiceImpl booksService = new BookServiceImpl();
-        PriceServiceImpl priceService = new PriceServiceImpl();
-        RatingServiceImpl ratingService = new RatingServiceImpl();
-
-        LOGGER.info("GetBooks starting at " + System.currentTimeMillis());
-
-        Observable<Book> booksObservable = booksService.findBooksObservable();
-
-        LOGGER.info("BookObservable created, but not subscribed.");
-
-        booksObservable.flatMap(book -> {
-            LOGGER.info("Processing book with id = {}", book.getId());
-            return Observable.just(book)
-//                    .subscribeOn(Schedulers.io())
-                    .map(book1 -> {
-                        Observable<Price> price = priceService.getPriceForBookObservable(book.getId()); //.subscribeOn(Schedulers.io());
-                        Observable<Rating> rating = ratingService.getRatingForBookOservable(book.getId());//.subscribeOn(Schedulers.io());
-                        return Observable.zip(price, rating, (p, r) -> {
-                            AggregatedBookInfo aggregatedBookInfo = new AggregatedBookInfo();
-                            aggregatedBookInfo.setAuthor(book.getAuthor());
-                            aggregatedBookInfo.setTitle(book.getTitle());
-                            aggregatedBookInfo.setPrice(p.getPrice());
-                            aggregatedBookInfo.setDiscount(p.getDiscount());
-                            aggregatedBookInfo.setRating(r.getRating());
-                            return aggregatedBookInfo;
-                        });
-                    });
-        }).subscribe(aggregatedBookInfo -> {
-            aggregatedBookInfo/*.subscribeOn(Schedulers.io())*/.subscribe(aggregatedBookInfo1 -> {
-                LOGGER.info("Aggregated book info: {}", aggregatedBookInfo1.toString());
-                LOGGER.info("BookInfo received at: {}", System.currentTimeMillis());
-                countDownLatch.countDown();
-            });
-        });
-
-        countDownLatch.await(10, TimeUnit.SECONDS);
-        stopWatch.stop();
-        System.out.println("Time to aggregate book info " + stopWatch.getTotalTimeMillis());
+//        StopWatch stopWatch = new StopWatch();
+//        stopWatch.start();
+//        CountDownLatch countDownLatch = new CountDownLatch(10);
+//        BookServiceImpl booksService = new BookServiceImpl();
+//        PriceServiceImpl priceService = new PriceServiceImpl();
+//        RatingServiceImpl ratingService = new RatingServiceImpl();
+//
+//        LOGGER.info("GetBooks starting at " + System.currentTimeMillis());
+//
+//        Observable<Book> booksObservable = booksService.findBooksObservable();
+//
+//        LOGGER.info("BookObservable created, but not subscribed.");
+//
+//        booksObservable.flatMap(book -> {
+//            LOGGER.info("Processing book with id = {}", book.getId());
+//            return Observable.just(book)
+////                    .subscribeOn(Schedulers.io())
+//                    .map(book1 -> {
+//                        Observable<Price> price = priceService.getPriceForBookObservable(book.getId()); //.subscribeOn(Schedulers.io());
+//                        Observable<Rating> rating = ratingService.getRatingForBookOservable(book.getId());//.subscribeOn(Schedulers.io());
+//                        return Observable.zip(price, rating, (p, r) -> {
+//                            AggregatedBookInfo aggregatedBookInfo = new AggregatedBookInfo();
+//                            aggregatedBookInfo.setAuthor(book.getAuthor());
+//                            aggregatedBookInfo.setTitle(book.getTitle());
+//                            aggregatedBookInfo.setPrice(p.getPrice());
+//                            aggregatedBookInfo.setDiscount(p.getDiscount());
+//                            aggregatedBookInfo.setRating(r.getRating());
+//                            return aggregatedBookInfo;
+//                        });
+//                    });
+//        }).subscribe(aggregatedBookInfo -> {
+//            aggregatedBookInfo/*.subscribeOn(Schedulers.io())*/.subscribe(aggregatedBookInfo1 -> {
+//                LOGGER.info("Aggregated book info: {}", aggregatedBookInfo1.toString());
+//                LOGGER.info("BookInfo received at: {}", System.currentTimeMillis());
+//                countDownLatch.countDown();
+//            });
+//        });
+//
+//        countDownLatch.await(10, TimeUnit.SECONDS);
+//        stopWatch.stop();
+//        System.out.println("Time to aggregate book info " + stopWatch.getTotalTimeMillis());
     }
 
     @Bean

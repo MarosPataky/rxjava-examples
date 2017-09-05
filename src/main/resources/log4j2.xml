@@ -5,29 +5,11 @@
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] [%X{XUniqueID}] %-5level  %logger{36} - %msg%n"/>
         </Console>
 
-        <!--<Kafka name="Kafka" topic="${env:KAFKA_TOPIC}">
-            <PatternLayout pattern="%message"/>
-            <Property name="bootstrap.servers">${env:KAFKA_BOOTSTRAP_SERVERS}</Property>
-            &lt;!&ndash;<Property name="another.kafka.property.here">${env:KAFKA_PROP}</Property>&ndash;&gt;
-            &lt;!&ndash;available Kafka properties: http://kafka.apache.org/documentation.html#producerconfigs  &ndash;&gt;
-        </Kafka>
-
-        <Async name="Async">
-            <AppenderRef ref="Kafka"/>
-        </Async>-->
-
     </Appenders>
     <Loggers>
         <Root level="info">
             <AppenderRef ref="Console"/>
         </Root>
-
-        <Logger name="org.hotovo.cloudmine.logging.CustomLoggingFilter" level="INFO">
-            <!--<AppenderRef ref="Async"/>-->
-        </Logger>
-
-        <!-- avoid recursive logging -->
-        <Logger name="org.apache.kafka" level="INFO"/>
 
 
     </Loggers>

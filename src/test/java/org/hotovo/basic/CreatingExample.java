@@ -1,6 +1,7 @@
 package org.hotovo.basic;
 
 import io.reactivex.Observable;
+import io.reactivex.schedulers.Schedulers;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -13,20 +14,32 @@ public class CreatingExample {
 
     @Test
     public void createOperation() {
-        Observable.create(subscriber -> {
+        Observable observable = Observable.create(subscriber -> {
             try {
+                System.out.println("Running");
                 subscriber.onNext("first item");
+                System.out.println("Running 2");
                 subscriber.onNext("second item");
                 subscriber.onNext("3rd item");
+                subscriber.onNext("second item");
                 subscriber.onNext("...");
                 subscriber.onComplete();
             } catch (Exception e) {
                 subscriber.onError(e);
             }
-        })
-                .subscribe(next -> System.out.println("next: " + next),
-                        Throwable::printStackTrace,
-                        () -> System.out.println("complete!"));
+        }).distinct();
+
+        observable.subscribeOn(Schedulers.newThread()).subscribe(next -> System.out.println("first next: " + next),
+                (a) -> {
+                    System.out.println("aaa");
+                },
+                () -> System.out.println("first complete!"));
+
+        observable.subscribeOn(Schedulers.newThread()).subscribe(next -> System.out.println("next: " + next),
+                (a) -> {
+                    System.out.println("aaa");
+                },
+                () -> System.out.println("complete!"));
     }
 
     @Test
@@ -46,7 +59,7 @@ public class CreatingExample {
     public void testFromArray() throws Exception {
         String[] array = {"1", "2"};
         Observable.fromArray(array)
-                .subscribe(next -> System.out.println("next: " +  next),
+                .subscribe(next -> System.out.println("next: " + next),
                         Throwable::printStackTrace,
                         () -> System.out.println("complete!"));
     }
@@ -63,7 +76,7 @@ public class CreatingExample {
     @Test
     public void testInterval() throws InterruptedException {
         Observable.<String>interval(200, TimeUnit.MILLISECONDS)
-                .subscribe(next -> System.out.println("next: " +  next),
+                .subscribe(next -> System.out.println("next: " + next),
                         Throwable::printStackTrace,
                         () -> System.out.println("complete!"));
 

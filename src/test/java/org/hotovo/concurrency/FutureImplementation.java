@@ -19,7 +19,7 @@ import java.util.concurrent.Future;
  */
 public class FutureImplementation {
 
-    private static final ExecutorService pool = Executors.newFixedThreadPool(4);
+    private static final ExecutorService pool = Executors.newFixedThreadPool(10);
 
     private static final BookServiceImpl bookService = new BookServiceImpl();
     private static final PriceServiceImpl priceService = new PriceServiceImpl();
