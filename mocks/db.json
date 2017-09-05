@@ -1,0 +1,53 @@
+{
+  "books": [
+    { "id": 1, "title": "The Handmaid's Tale", "author": "Margared Atwood" },
+    { "id": 2, "title": "Milk and Honey", "author": "Rupi Kaur" },
+    { "id": 3, "title": "Good Night Stories for Rebel Girls", "author": "Elena Favilli" },
+    { "id": 4, "title": "That's Not My Unicorn...", "author": "Fiona Watt" },
+    { "id": 5, "title": "Sapiens", "author": "Yuval Noah Harari" },
+    { "id": 6, "title": "When Breath Becomes Air", "author": "Paul Kalanithi" },
+    { "id": 7, "title": "The Clever Guts Diet", "author": "Michael Mosley" },
+    { "id": 8, "title": "Wonder", "author": "R. J. Palacio" },
+    { "id": 9, "title": "Man's Search For Meaning", "author": "Viktor E. Frankl" },
+    { "id": 10, "title": "A Man Called Ove", "author": "Fredrik Backman" }
+  ],
+  "ratings": [
+    { "id": 1, "rating": 4 },
+    { "id": 2, "rating": 4.5 },
+    { "id": 3, "rating": 4.3 },
+    { "id": 4, "rating": 3.5 },
+    { "id": 5, "rating": 3.8 },
+    { "id": 6, "rating": 4.9 },
+    { "id": 7, "rating": 4.7 },
+    { "id": 8, "rating": 4.1 },
+    { "id": 9, "rating": 3.9 },
+    { "id": 10, "rating": 4.5 }
+  ],
+  "prices" : [
+  	{ "id": 1, "price": 10.5, "discount" : 28 },
+  	{ "id": 2, "price": 13.99, "discount" : 40 },
+  	{ "id": 3, "price": 20.49, "discount" : 24 },
+  	{ "id": 4, "price": 8.49, "discount" : 23 },
+  	{ "id": 5, "price": 13.48, "discount" : 22 },
+  	{ "id": 6, "price": 11.49, "discount" : 34 },
+  	{ "id": 7, "price": 11.49, "discount" : 35 },
+  	{ "id": 8, "price": 7.99, "discount" : 12 },
+  	{ "id": 9, "price": 8.99, "discount" : 20 },
+  	{ "id": 10, "price": 10.50, "discount" : 28 }
+  ],
+  "description": [
+    { "id": 1, "description": "The Handmaid's Tale description."},
+    { "id": 2, "description": "Milk and Honey description."},
+    { "id": 3, "description": "Good Night Stories for Rebel Girls description."},
+    { "id": 4, "description": "That's Not My Unicorn... description."},
+    { "id": 5, "description": "Sapiens description."},
+    { "id": 6, "description": "When Breath Becomes Air description."},
+    { "id": 7, "description": "The Clever Guts Diet description."},
+    { "id": 8, "description": "Wonder description."},
+    { "id": 9, "description": "Man's Search For Meaning description."},
+    { "id": 10, "description": "A Man Called Ove description."}
+  ]
+}
+
+
+
