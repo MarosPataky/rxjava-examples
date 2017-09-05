@@ -2,7 +2,6 @@ package org.hotovo.service;
 
 import io.reactivex.Observable;
 import org.hotovo.model.Book;
-import org.hotovo.model.Price;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.ParameterizedTypeReference;
@@ -15,15 +14,9 @@ import java.util.List;
 /**
  *
  */
-public class BooksService {
+public class BookServiceImpl {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(BooksService.class);
-
-    public Observable<Book> findBooksObservable() {
-        return Observable.fromCallable(() -> {
-            return findBooks();
-        }).flatMapIterable(x -> x);
-    }
+    private static final Logger LOGGER = LoggerFactory.getLogger(BookServiceImpl.class);
 
     public List<Book> findBooks() {
         RestTemplate restTemplate = new RestTemplate();
@@ -34,7 +27,7 @@ public class BooksService {
         });
 
         List<Book> books = response.getBody();
-        LOGGER.info("Fetched %d books.", books.size());
+        LOGGER.info("Fetched {} books.", books.size());
         return books;
     }
 }
