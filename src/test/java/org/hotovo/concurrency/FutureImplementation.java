@@ -8,18 +8,19 @@ import org.hotovo.service.BookServiceImpl;
 import org.hotovo.service.PriceServiceImpl;
 import org.hotovo.service.RatingServiceImpl;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.stream.Collectors;
 
 /**
  * TODO
  */
 public class FutureImplementation {
 
-    private static final ExecutorService pool = Executors.newFixedThreadPool(10);
+    private static final ExecutorService pool = Executors.newCachedThreadPool();
 
     private static final BookServiceImpl bookService = new BookServiceImpl();
     private static final PriceServiceImpl priceService = new PriceServiceImpl();
@@ -36,20 +37,20 @@ public class FutureImplementation {
             e.printStackTrace();
         }
 
-        List<AggregatedBookInfo> aggregatedBookInfoResults = new ArrayList<>();
-
-        for (Book book : listOfFoundBooks) {
-            Future<Price> priceFuture = getPriceForBookFuture(book.getId());
-            Future<Rating> ratingFuture = getRatingForBookFuture(book.getId());
-
-            try {
-                aggregatedBookInfoResults.add(Utils.toAggregateBookInfo(book, priceFuture.get(), ratingFuture.get())); // blocks here
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        return aggregatedBookInfoResults;
+		return listOfFoundBooks.stream().map(book -> {
+			Future<Price> priceFuture = getPriceForBookFuture(book.getId());
+			Future<Rating> ratingFuture = getRatingForBookFuture(book.getId());
+			return pool.submit(() -> Utils.toAggregateBookInfo(book, priceFuture.get(), ratingFuture.get()));
+		})
+		.collect(Collectors.toList())
+		.stream()
+		.map(f -> {
+			try {
+				return f.get();
+			} catch (InterruptedException | ExecutionException e) {
+				throw new RuntimeException(e);
+			}
+		}).collect(Collectors.toList());
     }
 
     private static Future<Rating> getRatingForBookFuture(Long id) {

@@ -20,8 +20,7 @@ import java.util.stream.Collectors;
  */
 public class CompletableFutureImplementation {
 
-    private static final ExecutorService pool = Executors.newFixedThreadPool(10);
-    private static final ExecutorService pool2 = Executors.newFixedThreadPool(10);
+    private static final ExecutorService pool = Executors.newCachedThreadPool();
 
     private static final BookServiceImpl bookService = new BookServiceImpl();
     private static final PriceServiceImpl priceService = new PriceServiceImpl();
@@ -31,25 +30,30 @@ public class CompletableFutureImplementation {
 
         return findBooksCompletableFuture()
                 .thenApply(listOfBooks -> listOfBooks
-                        .parallelStream()
+                		.parallelStream()
                         .map(book -> {
                             CompletableFuture<Price> getPriceCompletableFuture = getPriceForBookCompletableFuture(book.getId());
                             CompletableFuture<Rating> getRatingCompletableFuture = getRatingForBookCompletableFuture(book.getId());
-
-                            CompletableFuture.allOf(getPriceCompletableFuture, getRatingCompletableFuture);
-
-                            try {
-                                return Utils.toAggregateBookInfo(book, getPriceCompletableFuture.get(), getRatingCompletableFuture.get());
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                            return null;
+                            return CompletableFuture.allOf(getPriceCompletableFuture, getRatingCompletableFuture).thenApply((v) -> {
+	                            	try {
+	                            		return Utils.toAggregateBookInfo(book, getPriceCompletableFuture.get(), getRatingCompletableFuture.get());
+	                            	} catch (Exception e) {
+	                            		throw new RuntimeException(e);
+	                            	}
+                            });
                         })
+                        .map(f -> {
+							try {
+								return f.get();
+							} catch (InterruptedException | ExecutionException e) {
+								throw new RuntimeException(e);
+							}
+						})
                         .collect(Collectors.toList())).get();
     }
 
     private static CompletableFuture<Rating> getRatingForBookCompletableFuture(Long id) {
-        return CompletableFuture.supplyAsync(() -> ratingService.getRatingForBook(id), pool2);
+        return CompletableFuture.supplyAsync(() -> ratingService.getRatingForBook(id), pool);
     }
 
     private static CompletableFuture<Price> getPriceForBookCompletableFuture(Long id) {
