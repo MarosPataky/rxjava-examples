@@ -14,7 +14,7 @@ public class CreatingExample {
 
     @Test
     public void createOperation() {
-        Observable observable = Observable.create(subscriber -> {
+        Observable<String> observable = Observable.<String>create(subscriber -> {
             try {
                 System.out.println("Running");
                 subscriber.onNext("first item");
@@ -75,7 +75,7 @@ public class CreatingExample {
 
     @Test
     public void testInterval() throws InterruptedException {
-        Observable.<String>interval(200, TimeUnit.MILLISECONDS)
+        Observable.interval(200, TimeUnit.MILLISECONDS)
                 .subscribe(next -> System.out.println("next: " + next),
                         Throwable::printStackTrace,
                         () -> System.out.println("complete!"));

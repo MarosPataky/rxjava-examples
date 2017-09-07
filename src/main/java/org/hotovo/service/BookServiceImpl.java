@@ -1,6 +1,5 @@
 package org.hotovo.service;
 
-import io.reactivex.Observable;
 import org.hotovo.model.Book;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

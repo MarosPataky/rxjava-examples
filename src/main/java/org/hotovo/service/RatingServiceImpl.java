@@ -1,7 +1,5 @@
 package org.hotovo.service;
 
-import io.reactivex.Observable;
-import io.reactivex.schedulers.Schedulers;
 import org.hotovo.model.Rating;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

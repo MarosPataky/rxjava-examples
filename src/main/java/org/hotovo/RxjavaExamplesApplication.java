@@ -1,14 +1,5 @@
 package org.hotovo;
 
-import io.reactivex.Observable;
-import io.reactivex.schedulers.Schedulers;
-import org.hotovo.model.AggregatedBookInfo;
-import org.hotovo.model.Book;
-import org.hotovo.model.Price;
-import org.hotovo.model.Rating;
-import org.hotovo.service.BookServiceImpl;
-import org.hotovo.service.PriceServiceImpl;
-import org.hotovo.service.RatingServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -16,11 +7,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
-import org.springframework.util.StopWatch;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 
 @SpringBootApplication
 public class RxjavaExamplesApplication implements CommandLineRunner {

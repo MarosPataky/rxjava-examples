@@ -8,7 +8,6 @@ import org.hotovo.service.BookServiceImpl;
 import org.hotovo.service.PriceServiceImpl;
 import org.hotovo.service.RatingServiceImpl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
